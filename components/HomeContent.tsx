@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import GoogleMapEmbed from "@/components/GoogleMapEmbed";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
@@ -107,18 +108,22 @@ export default function HomeContent() {
               </div>
             </div>
 
-            <div>
-              <div className="bg-gradient-to-br from-[#C9A962]/10 to-[#C9A962]/5 rounded-lg p-8 border border-[#C9A962]/20">
-                <h3 className="text-2xl font-semibold text-gray-900 mb-2">Amer Center Dubai</h3>
-                <p className="text-gray-600 mb-6">{t.location.insideDubaiImmigration}, {t.location.dafzaAlTwar}</p>
-                <div className="grid grid-cols-2 gap-3">
-                  {stats.map((stat) => (
-                    <div key={stat.label} className="p-4 text-center bg-white/90 backdrop-blur border border-gray-100 rounded-lg shadow-sm">
-                      <div className="text-2xl font-light text-[#C9A962]">{stat.number}</div>
-                      <div className="text-xs text-gray-500 mt-1 uppercase tracking-wider">{stat.label}</div>
-                    </div>
-                  ))}
-                </div>
+            <div className="relative">
+              <Image
+                src="/hero.jpeg"
+                alt="Amer Center Dubai - Professional Visa Services"
+                width={600}
+                height={450}
+                className="w-full h-auto rounded-lg shadow-lg"
+                priority
+              />
+              <div className="grid grid-cols-2 gap-3 mt-6">
+                {stats.map((stat) => (
+                  <div key={stat.label} className="p-4 text-center bg-white/90 backdrop-blur border border-gray-100 rounded-lg shadow-sm">
+                    <div className="text-2xl font-light text-[#C9A962]">{stat.number}</div>
+                    <div className="text-xs text-gray-500 mt-1 uppercase tracking-wider">{stat.label}</div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Phone, Mail, MapPin } from "lucide-react";
 import { SiWhatsapp } from "react-icons/si";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
@@ -152,9 +153,13 @@ export default function Footer() {
 
         {/* Bottom */}
         <div className="flex flex-col items-center justify-center mt-16 pt-8 border-t border-gray-200">
-          <div className="h-16 w-16 bg-gold/10 rounded-full flex items-center justify-center">
-            <span className="font-bold text-gold-dark text-xs text-center">AMER<br/>CENTER</span>
-          </div>
+          <Image
+            src="/logo.jpeg"
+            alt="Amer Center Dubai Airport Freezone Al Twar"
+            width={80}
+            height={80}
+            className="h-20 w-20 object-contain opacity-90"
+          />
           <p className="text-xs text-gray-400 mt-4 text-center">
             Amer Center Dubai Airport Freezone Al Twar
           </p>

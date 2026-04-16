@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X, Phone, ChevronDown } from "lucide-react";
@@ -58,9 +59,14 @@ export default function Header() {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
-            <div className="h-12 px-4 bg-gold/10 rounded-lg flex items-center justify-center">
-              <span className="font-bold text-gold-dark text-lg">AMER CENTER</span>
-            </div>
+            <Image
+              src="/logo-header.jpeg"
+              alt="Amer Center Dubai"
+              width={200}
+              height={56}
+              className="h-14 w-auto object-contain"
+              priority
+            />
           </Link>
 
           {/* Desktop Nav */}

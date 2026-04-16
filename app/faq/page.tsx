@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import GoogleMapEmbed from "@/components/GoogleMapEmbed";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { SiWhatsapp } from "react-icons/si";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const WHATSAPP_URL = `https://wa.me/971504512311?text=${encodeURIComponent("Hello! I have a question about your services.")}`;
 
@@ -53,6 +54,7 @@ const faqCategories = [
 ];
 
 export default function FAQPage() {
+  const { t } = useLanguage();
   const [openItems, setOpenItems] = useState<string[]>([]);
 
   const toggleItem = (id: string) => {
@@ -105,7 +107,7 @@ export default function FAQPage() {
             <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
               <Button size="lg" className="bg-[#25D366] hover:bg-[#20BD5A] text-white rounded-md">
                 <SiWhatsapp className="h-5 w-5 mr-2" />
-                WhatsApp Us
+                {t.common.whatsappUs}
               </Button>
             </a>
           </div>

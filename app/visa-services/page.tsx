@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import { Button } from "@/components/ui/button";
+import TranslatedButton from "@/components/TranslatedButton";
 import GoogleMapEmbed from "@/components/GoogleMapEmbed";
 import { FileCheck, CheckCircle2, FileText, XCircle, ArrowLeftRight, Stamp } from "lucide-react";
-import { SiWhatsapp } from "react-icons/si";
-
 export const metadata: Metadata = {
   title: "Visa Renewal, Cancellation & Transfer Dubai | Amer Center",
   description: "UAE residence visa renewal, cancellation, transfer, and stamping services. Fast processing at Amer Center inside Dubai Immigration Building.",
@@ -58,12 +56,7 @@ export default function VisaServicesPage() {
                 inside Dubai Immigration Building for fastest results.
               </p>
               <div className="mt-8">
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-                  <Button size="lg" className="bg-[#25D366] hover:bg-[#20BD5A] text-white rounded-md">
-                    <SiWhatsapp className="h-5 w-5 mr-2" />
-                    Apply via WhatsApp
-                  </Button>
-                </a>
+                <TranslatedButton href={WHATSAPP_URL} labelKey="whatsappUs" />
               </div>
             </div>
             <div className="bg-white p-8 rounded-lg border border-gray-100 shadow-sm">
@@ -120,11 +113,7 @@ export default function VisaServicesPage() {
           <h2 className="text-3xl font-light tracking-tight">Need Visa Help?</h2>
           <p className="mt-4 text-gray-400">Contact us via WhatsApp for same-day service.</p>
           <div className="mt-8">
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-              <Button size="lg" className="bg-[#25D366] hover:bg-[#20BD5A] text-white rounded-md">
-                <SiWhatsapp className="h-5 w-5 mr-2" /> Start Now
-              </Button>
-            </a>
+            <TranslatedButton href={WHATSAPP_URL} labelKey="startNow" />
           </div>
         </div>
       </section>

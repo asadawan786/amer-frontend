@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { Button } from "@/components/ui/button";
 import GoogleMapEmbed from "@/components/GoogleMapEmbed";
 import { Award, CheckCircle2, FileText, Users, Briefcase, GraduationCap, Building2 } from "lucide-react";
-import { SiWhatsapp } from "react-icons/si";
+import TranslatedButton from "@/components/TranslatedButton";
 
 export const metadata: Metadata = {
   title: "Golden Visa Dubai 2026 | Apply via WhatsApp | Amer Center",
@@ -76,12 +75,7 @@ export default function GoldenVisaPage() {
                 for investors, entrepreneurs, scientists, and exceptional talents. Apply via WhatsApp from anywhere.
               </p>
               <div className="mt-8">
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-                  <Button size="lg" className="bg-[#25D366] hover:bg-[#20BD5A] text-white rounded-md">
-                    <SiWhatsapp className="h-5 w-5 mr-2" />
-                    Apply Now via WhatsApp
-                  </Button>
-                </a>
+                <TranslatedButton href={WHATSAPP_URL} labelKey="applyNow" />
               </div>
             </div>
             <div className="bg-white p-8 rounded-lg border border-gray-100 shadow-sm">
@@ -158,12 +152,7 @@ export default function GoldenVisaPage() {
           <h2 className="text-3xl font-light tracking-tight">Ready for Your Golden Visa?</h2>
           <p className="mt-4 text-gray-400">Start your application today via WhatsApp.</p>
           <div className="mt-8">
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-              <Button size="lg" className="bg-[#25D366] hover:bg-[#20BD5A] text-white rounded-md">
-                <SiWhatsapp className="h-5 w-5 mr-2" />
-                Start Now
-              </Button>
-            </a>
+            <TranslatedButton href={WHATSAPP_URL} labelKey="startNow" />
           </div>
         </div>
       </section>

@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { Button } from "@/components/ui/button";
+import TranslatedButton from "@/components/TranslatedButton";
 import GoogleMapEmbed from "@/components/GoogleMapEmbed";
 import { Users, CheckCircle2, FileText, Heart, User } from "lucide-react";
-import { SiWhatsapp } from "react-icons/si";
 
 export const metadata: Metadata = {
   title: "Family Visa Dubai 2026 | Sponsor Your Family | Amer Center",
@@ -52,12 +51,7 @@ export default function FamilyVisaPage() {
                 efficiently. Apply via WhatsApp from anywhere in the world.
               </p>
               <div className="mt-8">
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-                  <Button size="lg" className="bg-[#25D366] hover:bg-[#20BD5A] text-white rounded-md">
-                    <SiWhatsapp className="h-5 w-5 mr-2" />
-                    Apply via WhatsApp
-                  </Button>
-                </a>
+                <TranslatedButton href={WHATSAPP_URL} labelKey="whatsappUs" />
               </div>
             </div>
             <div className="bg-white p-8 rounded-lg border border-gray-100 shadow-sm">
@@ -117,11 +111,7 @@ export default function FamilyVisaPage() {
           <h2 className="text-3xl font-light tracking-tight">Ready to Bring Your Family?</h2>
           <p className="mt-4 text-gray-400">Start your family visa application today via WhatsApp.</p>
           <div className="mt-8">
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-              <Button size="lg" className="bg-[#25D366] hover:bg-[#20BD5A] text-white rounded-md">
-                <SiWhatsapp className="h-5 w-5 mr-2" /> Start Now
-              </Button>
-            </a>
+            <TranslatedButton href={WHATSAPP_URL} labelKey="startNow" />
           </div>
         </div>
       </section>

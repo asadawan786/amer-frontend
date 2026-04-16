@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import { Button } from "@/components/ui/button";
+import TranslatedButton from "@/components/TranslatedButton";
 import GoogleMapEmbed from "@/components/GoogleMapEmbed";
 import { Building2, CheckCircle2, Globe, Briefcase, FileText } from "lucide-react";
-import { SiWhatsapp } from "react-icons/si";
-
 export const metadata: Metadata = {
   title: "Business Setup Dubai 2026 | Mainland, Free Zone & Offshore | Amer Center",
   description: "Set up your business in Dubai. Mainland, Free Zone (DMCC, JAFZA, DAFZA), and Offshore company formation. Fast licensing via Amer Center.",
@@ -55,12 +53,7 @@ export default function BusinessSetupPage() {
                 formation services. Full licensing, visa quota, and banking support.
               </p>
               <div className="mt-8">
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-                  <Button size="lg" className="bg-[#25D366] hover:bg-[#20BD5A] text-white rounded-md">
-                    <SiWhatsapp className="h-5 w-5 mr-2" />
-                    Free Consultation
-                  </Button>
-                </a>
+                <TranslatedButton href={WHATSAPP_URL} labelKey="freeConsultation" />
               </div>
             </div>
             <div className="bg-white p-8 rounded-lg border border-gray-100 shadow-sm">
@@ -117,11 +110,7 @@ export default function BusinessSetupPage() {
           <h2 className="text-3xl font-light tracking-tight">Ready to Start Your Business?</h2>
           <p className="mt-4 text-gray-400">Get a free consultation via WhatsApp today.</p>
           <div className="mt-8">
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-              <Button size="lg" className="bg-[#25D366] hover:bg-[#20BD5A] text-white rounded-md">
-                <SiWhatsapp className="h-5 w-5 mr-2" /> Free Consultation
-              </Button>
-            </a>
+            <TranslatedButton href={WHATSAPP_URL} labelKey="freeConsultation" />
           </div>
         </div>
       </section>

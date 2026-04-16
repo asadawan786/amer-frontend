@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import GoogleMapEmbed from "@/components/GoogleMapEmbed";
 import { Phone, Mail, MapPin, Clock, Send, CheckCircle2 } from "lucide-react";
 import { SiWhatsapp } from "react-icons/si";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { apiRequest } from "@/lib/api";
 import { toast } from "@/hooks/use-toast";
 
@@ -23,6 +24,7 @@ const services = [
 ];
 
 export default function ContactPage() {
+  const { t } = useLanguage();
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -168,7 +170,7 @@ export default function ContactPage() {
                 <p className="text-sm text-gray-600 mb-4">WhatsApp is the quickest way to get help!</p>
                 <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
                   <Button className="w-full bg-[#25D366] hover:bg-[#20BD5A] text-white">
-                    <SiWhatsapp className="h-4 w-4 mr-2" /> WhatsApp Us
+                    <SiWhatsapp className="h-4 w-4 mr-2" /> {t.common.whatsappUs}
                   </Button>
                 </a>
               </div>

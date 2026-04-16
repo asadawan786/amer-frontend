@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import GoogleMapEmbed from "@/components/GoogleMapEmbed";
+import TranslatedButton from "@/components/TranslatedButton";
 import {
   Award, Users, CreditCard, FileCheck, Building2, Shield, Briefcase,
   Globe, FileText, Scale, Car, Heart, ArrowRight,
 } from "lucide-react";
-import { SiWhatsapp } from "react-icons/si";
-
 export const metadata: Metadata = {
   title: "All Services | Visa, Emirates ID, Business Setup | Amer Center Dubai",
   description: "Complete visa services, Emirates ID, attestation, translation, business setup, MOHRE services at Amer Center Dubai. Inside Dubai Immigration building DAFZA Al Twar.",
@@ -136,11 +134,7 @@ export default function ServicesPage() {
           <h2 className="text-3xl font-light tracking-tight">Need Help Choosing a Service?</h2>
           <p className="mt-4 text-gray-400">Contact us on WhatsApp and our expert team will guide you.</p>
           <div className="mt-8">
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-              <Button size="lg" className="bg-[#25D366] hover:bg-[#20BD5A] text-white rounded-md">
-                <SiWhatsapp className="h-5 w-5 mr-2" /> WhatsApp Us
-              </Button>
-            </a>
+            <TranslatedButton href={WHATSAPP_URL} labelKey="whatsappUs" />
           </div>
         </div>
       </section>
