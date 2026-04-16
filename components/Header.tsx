@@ -7,6 +7,7 @@ import { Menu, X, Phone, ChevronDown } from "lucide-react";
 import { SiWhatsapp } from "react-icons/si";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const WHATSAPP_NUMBER = "971504512311";
 const WHATSAPP_MESSAGE = encodeURIComponent("Hello! I need help with Dubai visa services.");
@@ -99,6 +100,7 @@ export default function Header() {
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center gap-4">
+            <LanguageSwitcher />
             <a href={`tel:+${WHATSAPP_NUMBER}`} className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900">
               <Phone className="h-4 w-4" />
               +971 50 451 2311
@@ -111,14 +113,17 @@ export default function Header() {
             </a>
           </div>
 
-          {/* Mobile toggle */}
-          <button
-            className="lg:hidden p-2"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle menu"
-          >
-            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+          {/* Mobile: language switcher + hamburger */}
+          <div className="lg:hidden flex items-center gap-2">
+            <LanguageSwitcher />
+            <button
+              className="p-2"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle menu"
+            >
+              {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}
