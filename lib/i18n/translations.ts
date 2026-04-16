@@ -1,0 +1,294 @@
+export type Language = "en" | "ar" | "hi" | "ru" | "fa" | "ur";
+
+export const languageNames: Record<Language, string> = {
+  en: "English",
+  ar: "العربية",
+  hi: "हिन्दी",
+  ru: "Русский",
+  fa: "فارسی",
+  ur: "اردو",
+};
+
+export const translations = {
+  en: {
+    nav: {
+      home: "Home", services: "Services", locations: "Locations", tools: "Tools",
+      faq: "FAQ", contact: "Contact", goldenVisa: "Golden Visa Dubai",
+      familyVisa: "Family Visa", emiratesId: "Emirates ID",
+      visaServices: "All Visa Services", businessSetup: "Business Setup",
+      proServices: "PRO & Government Services",
+    },
+    common: {
+      whatsappUs: "WhatsApp Us", getDirections: "Get Directions", callUs: "Call Us",
+      learnMore: "Learn More", applyNow: "Apply Now", contactUs: "Contact Us",
+      freeConsultation: "Free Consultation", startNow: "Start Now",
+    },
+    hero: {
+      title: "Dubai Visa & Immigration Services",
+      subtitle: "Your Trusted Partner Inside Dubai Immigration Building",
+      description: "Apply for Golden Visa, Family Visa, Emirates ID and all government services via WhatsApp. No office visits required.",
+      cta: "Start Your Application",
+    },
+    parking: {
+      title: "1 HOUR FREE SHADED PARKING",
+      description: "Convenient covered parking available for all visitors",
+    },
+    location: {
+      address: "Address", workingHours: "Working Hours", contact: "Contact",
+      insideDubaiImmigration: "Inside Dubai Immigration Building",
+      dafzaAlTwar: "DAFZA - Al Twar, Dubai, UAE",
+      weekdayHours: "Sunday - Thursday: 8:00 AM - 8:00 PM",
+      saturdayHours: "Saturday: 9:00 AM - 3:00 PM",
+    },
+    services: {
+      goldenVisa: "Golden Visa Processing", familyVisa: "Family Visa Sponsorship",
+      emiratesId: "Emirates ID Services", visaRenewal: "Visa Renewal & Cancellation",
+      attestation: "Attestation - All Embassies", translation: "Translation - All Languages",
+      dhaMedical: "DHA Medical Fitness", typing: "Typing Services",
+      dubaiMunicipality: "Dubai Municipality & DEQ", tasheel: "Tasheel Services",
+      businessSetup: "Business Setup & Licensing", mohre: "MOHRE & PRO Services",
+    },
+    stats: {
+      yearsExperience: "Years Experience", happyClients: "Happy Clients",
+      servicesCompleted: "Services Completed", googleRating: "Google Rating",
+    },
+    footer: {
+      visaServices: "Visa Services", businessServices: "Business Services",
+      locations: "Locations", quickLinks: "Quick Links", contactUs: "Contact Us",
+      allRightsReserved: "All rights reserved.",
+      trustedPartner: "Your Trusted Partner Inside Dubai Immigration Building",
+    },
+  },
+  ar: {
+    nav: {
+      home: "الرئيسية", services: "الخدمات", locations: "المواقع", tools: "الأدوات",
+      faq: "الأسئلة الشائعة", contact: "اتصل بنا", goldenVisa: "الإقامة الذهبية دبي",
+      familyVisa: "تأشيرة عائلية", emiratesId: "الهوية الإماراتية",
+      visaServices: "جميع خدمات التأشيرة", businessSetup: "تأسيس الشركات",
+      proServices: "خدمات المندوب والحكومة",
+    },
+    common: {
+      whatsappUs: "راسلنا على واتساب", getDirections: "احصل على الاتجاهات",
+      callUs: "اتصل بنا", learnMore: "اعرف المزيد", applyNow: "قدم الآن",
+      contactUs: "اتصل بنا", freeConsultation: "استشارة مجانية", startNow: "ابدأ الآن",
+    },
+    hero: {
+      title: "خدمات التأشيرة والهجرة في دبي",
+      subtitle: "شريكك الموثوق داخل مبنى الهجرة دبي",
+      description: "قدم على الإقامة الذهبية، تأشيرة العائلة، الهوية الإماراتية وجميع الخدمات الحكومية عبر واتساب.",
+      cta: "ابدأ طلبك",
+    },
+    parking: { title: "ساعة واحدة مجاناً - موقف مظلل", description: "موقف مغطى مريح متاح لجميع الزوار" },
+    location: {
+      address: "العنوان", workingHours: "ساعات العمل", contact: "للتواصل",
+      insideDubaiImmigration: "داخل مبنى الهجرة دبي",
+      dafzaAlTwar: "دافزا - الطوار، دبي، الإمارات",
+      weekdayHours: "الأحد - الخميس: 8:00 صباحاً - 8:00 مساءً",
+      saturdayHours: "السبت: 9:00 صباحاً - 3:00 مساءً",
+    },
+    services: {
+      goldenVisa: "معالجة الإقامة الذهبية", familyVisa: "كفالة التأشيرة العائلية",
+      emiratesId: "خدمات الهوية الإماراتية", visaRenewal: "تجديد وإلغاء التأشيرة",
+      attestation: "التصديق - جميع السفارات", translation: "الترجمة - جميع اللغات",
+      dhaMedical: "الفحص الطبي DHA", typing: "خدمات الطباعة",
+      dubaiMunicipality: "بلدية دبي و DEQ", tasheel: "خدمات تسهيل",
+      businessSetup: "تأسيس الشركات والتراخيص", mohre: "وزارة الموارد البشرية وخدمات المندوب",
+    },
+    stats: {
+      yearsExperience: "سنوات الخبرة", happyClients: "عميل سعيد",
+      servicesCompleted: "خدمة مكتملة", googleRating: "تقييم جوجل",
+    },
+    footer: {
+      visaServices: "خدمات التأشيرة", businessServices: "خدمات الأعمال",
+      locations: "المواقع", quickLinks: "روابط سريعة", contactUs: "اتصل بنا",
+      allRightsReserved: "جميع الحقوق محفوظة.",
+      trustedPartner: "شريكك الموثوق داخل مبنى الهجرة دبي",
+    },
+  },
+  hi: {
+    nav: {
+      home: "होम", services: "सेवाएं", locations: "स्थान", tools: "टूल्स",
+      faq: "सामान्य प्रश्न", contact: "संपर्क", goldenVisa: "गोल्डन वीज़ा दुबई",
+      familyVisa: "फैमिली वीज़ा", emiratesId: "अमीरात आईडी",
+      visaServices: "सभी वीज़ा सेवाएं", businessSetup: "बिज़नेस सेटअप",
+      proServices: "PRO और सरकारी सेवाएं",
+    },
+    common: {
+      whatsappUs: "व्हाट्सएप करें", getDirections: "दिशा निर्देश", callUs: "कॉल करें",
+      learnMore: "और जानें", applyNow: "अभी आवेदन करें", contactUs: "संपर्क करें",
+      freeConsultation: "मुफ्त परामर्श", startNow: "अभी शुरू करें",
+    },
+    hero: {
+      title: "दुबई वीज़ा और इमिग्रेशन सेवाएं",
+      subtitle: "दुबई इमिग्रेशन बिल्डिंग के अंदर आपका विश्वसनीय साथी",
+      description: "व्हाट्सएप के माध्यम से गोल्डन वीज़ा, फैमिली वीज़ा, अमीरात आईडी और सभी सरकारी सेवाओं के लिए आवेदन करें।",
+      cta: "अपना आवेदन शुरू करें",
+    },
+    parking: { title: "1 घंटा मुफ्त छाया वाली पार्किंग", description: "सभी आगंतुकों के लिए सुविधाजनक कवर पार्किंग उपलब्ध" },
+    location: {
+      address: "पता", workingHours: "कार्य समय", contact: "संपर्क",
+      insideDubaiImmigration: "दुबई इमिग्रेशन बिल्डिंग के अंदर",
+      dafzaAlTwar: "DAFZA - अल तवार, दुबई, UAE",
+      weekdayHours: "रविवार - गुरुवार: सुबह 8:00 - शाम 8:00",
+      saturdayHours: "शनिवार: सुबह 9:00 - दोपहर 3:00",
+    },
+    services: {
+      goldenVisa: "गोल्डन वीज़ा प्रोसेसिंग", familyVisa: "फैमिली वीज़ा स्पॉन्सरशिप",
+      emiratesId: "अमीरात आईडी सेवाएं", visaRenewal: "वीज़ा नवीनीकरण और रद्द",
+      attestation: "सभी दूतावासों का अटेस्टेशन", translation: "सभी भाषाओं का अनुवाद",
+      dhaMedical: "DHA मेडिकल फिटनेस", typing: "टाइपिंग सेवाएं",
+      dubaiMunicipality: "दुबई नगरपालिका और DEQ", tasheel: "तशील सेवाएं",
+      businessSetup: "बिज़नेस सेटअप और लाइसेंसिंग", mohre: "MOHRE और PRO सेवाएं",
+    },
+    stats: {
+      yearsExperience: "वर्षों का अनुभव", happyClients: "खुश ग्राहक",
+      servicesCompleted: "सेवाएं पूर्ण", googleRating: "गूगल रेटिंग",
+    },
+    footer: {
+      visaServices: "वीज़ा सेवाएं", businessServices: "बिज़नेस सेवाएं",
+      locations: "स्थान", quickLinks: "त्वरित लिंक", contactUs: "संपर्क करें",
+      allRightsReserved: "सर्वाधिकार सुरक्षित।",
+      trustedPartner: "दुबई इमिग्रेशन बिल्डिंग के अंदर आपका विश्वसनीय साथी",
+    },
+  },
+  ru: {
+    nav: {
+      home: "Главная", services: "Услуги", locations: "Локации", tools: "Инструменты",
+      faq: "Вопросы", contact: "Контакты", goldenVisa: "Золотая Виза Дубай",
+      familyVisa: "Семейная Виза", emiratesId: "Emirates ID",
+      visaServices: "Все Визовые Услуги", businessSetup: "Открытие Бизнеса",
+      proServices: "PRO и Гос. Услуги",
+    },
+    common: {
+      whatsappUs: "Написать в WhatsApp", getDirections: "Показать маршрут", callUs: "Позвонить",
+      learnMore: "Узнать больше", applyNow: "Подать заявку", contactUs: "Связаться с нами",
+      freeConsultation: "Бесплатная консультация", startNow: "Начать сейчас",
+    },
+    hero: {
+      title: "Визовые и Иммиграционные Услуги в Дубае",
+      subtitle: "Ваш надежный партнер в здании Иммиграции Дубая",
+      description: "Подайте заявку на Золотую Визу, Семейную Визу, Emirates ID и все государственные услуги через WhatsApp.",
+      cta: "Начать оформление",
+    },
+    parking: { title: "1 ЧАС БЕСПЛАТНОЙ КРЫТОЙ ПАРКОВКИ", description: "Удобная крытая парковка для всех посетителей" },
+    location: {
+      address: "Адрес", workingHours: "Часы работы", contact: "Контакты",
+      insideDubaiImmigration: "Внутри здания Иммиграции Дубая",
+      dafzaAlTwar: "DAFZA - Аль Тавар, Дубай, ОАЭ",
+      weekdayHours: "Воскресенье - Четверг: 8:00 - 20:00",
+      saturdayHours: "Суббота: 9:00 - 15:00",
+    },
+    services: {
+      goldenVisa: "Оформление Золотой Визы", familyVisa: "Спонсорство Семейной Визы",
+      emiratesId: "Услуги Emirates ID", visaRenewal: "Продление и Отмена Визы",
+      attestation: "Аттестация - Все Посольства", translation: "Перевод - Все Языки",
+      dhaMedical: "Медицинское обследование DHA", typing: "Услуги печати",
+      dubaiMunicipality: "Муниципалитет Дубая и DEQ", tasheel: "Услуги Tasheel",
+      businessSetup: "Регистрация Бизнеса", mohre: "MOHRE и PRO Услуги",
+    },
+    stats: {
+      yearsExperience: "Лет Опыта", happyClients: "Довольных Клиентов",
+      servicesCompleted: "Выполненных Услуг", googleRating: "Рейтинг Google",
+    },
+    footer: {
+      visaServices: "Визовые Услуги", businessServices: "Бизнес Услуги",
+      locations: "Локации", quickLinks: "Быстрые Ссылки", contactUs: "Связаться с нами",
+      allRightsReserved: "Все права защищены.",
+      trustedPartner: "Ваш надежный партнер в здании Иммиграции Дубая",
+    },
+  },
+  fa: {
+    nav: {
+      home: "خانه", services: "خدمات", locations: "مکان‌ها", tools: "ابزارها",
+      faq: "سوالات متداول", contact: "تماس", goldenVisa: "ویزای طلایی دبی",
+      familyVisa: "ویزای خانوادگی", emiratesId: "کارت امارات",
+      visaServices: "تمام خدمات ویزا", businessSetup: "راه‌اندازی کسب و کار",
+      proServices: "خدمات PRO و دولتی",
+    },
+    common: {
+      whatsappUs: "پیام در واتساپ", getDirections: "مسیریابی", callUs: "تماس بگیرید",
+      learnMore: "بیشتر بدانید", applyNow: "درخواست دهید", contactUs: "تماس با ما",
+      freeConsultation: "مشاوره رایگان", startNow: "همین الان شروع کنید",
+    },
+    hero: {
+      title: "خدمات ویزا و مهاجرت دبی",
+      subtitle: "شریک مورد اعتماد شما در ساختمان مهاجرت دبی",
+      description: "برای ویزای طلایی، ویزای خانوادگی، کارت امارات و تمام خدمات دولتی از طریق واتساپ درخواست دهید.",
+      cta: "شروع درخواست",
+    },
+    parking: { title: "۱ ساعت پارکینگ سرپوشیده رایگان", description: "پارکینگ سرپوشیده راحت برای تمام بازدیدکنندگان" },
+    location: {
+      address: "آدرس", workingHours: "ساعات کاری", contact: "تماس",
+      insideDubaiImmigration: "داخل ساختمان مهاجرت دبی",
+      dafzaAlTwar: "DAFZA - الطوار، دبی، امارات",
+      weekdayHours: "یکشنبه - پنجشنبه: ۸:۰۰ صبح - ۸:۰۰ شب",
+      saturdayHours: "شنبه: ۹:۰۰ صبح - ۳:۰۰ بعدازظهر",
+    },
+    services: {
+      goldenVisa: "پردازش ویزای طلایی", familyVisa: "حمایت ویزای خانوادگی",
+      emiratesId: "خدمات کارت امارات", visaRenewal: "تمدید و لغو ویزا",
+      attestation: "تایید - تمام سفارت‌ها", translation: "ترجمه - تمام زبان‌ها",
+      dhaMedical: "معاینه پزشکی DHA", typing: "خدمات تایپ",
+      dubaiMunicipality: "شهرداری دبی و DEQ", tasheel: "خدمات تسهیل",
+      businessSetup: "راه‌اندازی و مجوز کسب و کار", mohre: "خدمات MOHRE و PRO",
+    },
+    stats: {
+      yearsExperience: "سال تجربه", happyClients: "مشتری راضی",
+      servicesCompleted: "خدمات انجام شده", googleRating: "امتیاز گوگل",
+    },
+    footer: {
+      visaServices: "خدمات ویزا", businessServices: "خدمات کسب و کار",
+      locations: "مکان‌ها", quickLinks: "لینک‌های سریع", contactUs: "تماس با ما",
+      allRightsReserved: "تمام حقوق محفوظ است.",
+      trustedPartner: "شریک مورد اعتماد شما در ساختمان مهاجرت دبی",
+    },
+  },
+  ur: {
+    nav: {
+      home: "ہوم", services: "خدمات", locations: "مقامات", tools: "ٹولز",
+      faq: "سوالات", contact: "رابطہ", goldenVisa: "گولڈن ویزا دبئی",
+      familyVisa: "فیملی ویزا", emiratesId: "ایمریٹس آئی ڈی",
+      visaServices: "تمام ویزا خدمات", businessSetup: "کاروبار سیٹ اپ",
+      proServices: "PRO اور سرکاری خدمات",
+    },
+    common: {
+      whatsappUs: "واٹس ایپ کریں", getDirections: "راستہ دکھائیں", callUs: "کال کریں",
+      learnMore: "مزید جانیں", applyNow: "ابھی درخواست دیں", contactUs: "ہم سے رابطہ کریں",
+      freeConsultation: "مفت مشاورت", startNow: "ابھی شروع کریں",
+    },
+    hero: {
+      title: "دبئی ویزا اور امیگریشن خدمات",
+      subtitle: "دبئی امیگریشن بلڈنگ میں آپ کا قابل اعتماد ساتھی",
+      description: "واٹس ایپ کے ذریعے گولڈن ویزا، فیملی ویزا، ایمریٹس آئی ڈی اور تمام سرکاری خدمات کے لیے درخواست دیں۔",
+      cta: "اپنی درخواست شروع کریں",
+    },
+    parking: { title: "1 گھنٹہ مفت چھتری پارکنگ", description: "تمام زائرین کے لیے آسان کوورڈ پارکنگ دستیاب" },
+    location: {
+      address: "پتہ", workingHours: "کام کے اوقات", contact: "رابطہ",
+      insideDubaiImmigration: "دبئی امیگریشن بلڈنگ کے اندر",
+      dafzaAlTwar: "DAFZA - الطوار، دبئی، یو اے ای",
+      weekdayHours: "اتوار - جمعرات: صبح 8:00 - شام 8:00",
+      saturdayHours: "ہفتہ: صبح 9:00 - دوپہر 3:00",
+    },
+    services: {
+      goldenVisa: "گولڈن ویزا پروسیسنگ", familyVisa: "فیملی ویزا سپانسرشپ",
+      emiratesId: "ایمریٹس آئی ڈی خدمات", visaRenewal: "ویزا تجدید اور منسوخی",
+      attestation: "تصدیق - تمام سفارت خانے", translation: "ترجمہ - تمام زبانیں",
+      dhaMedical: "DHA میڈیکل فٹنس", typing: "ٹائپنگ خدمات",
+      dubaiMunicipality: "دبئی میونسپلٹی اور DEQ", tasheel: "تسہیل خدمات",
+      businessSetup: "کاروبار سیٹ اپ اور لائسنسنگ", mohre: "MOHRE اور PRO خدمات",
+    },
+    stats: {
+      yearsExperience: "سال کا تجربہ", happyClients: "خوش گاہک",
+      servicesCompleted: "مکمل خدمات", googleRating: "گوگل ریٹنگ",
+    },
+    footer: {
+      visaServices: "ویزا خدمات", businessServices: "کاروباری خدمات",
+      locations: "مقامات", quickLinks: "فوری لنکس", contactUs: "ہم سے رابطہ کریں",
+      allRightsReserved: "جملہ حقوق محفوظ ہیں۔",
+      trustedPartner: "دبئی امیگریشن بلڈنگ میں آپ کا قابل اعتماد ساتھی",
+    },
+  },
+} as const;
+
+export type TranslationKey = keyof typeof translations.en;
