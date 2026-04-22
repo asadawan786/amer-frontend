@@ -28,6 +28,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/blog", priority: 0.85, changeFrequency: "daily" },
     { path: "/faq", priority: 0.75, changeFrequency: "monthly" },
     { path: "/contact", priority: 0.75, changeFrequency: "monthly" },
+
+    // Blog posts
+    { path: "/blog/golden-visa-dubai-complete-guide-2026", priority: 0.64, changeFrequency: "monthly" },
+    { path: "/blog/how-to-apply-golden-visa-whatsapp", priority: 0.64, changeFrequency: "monthly" },
+    { path: "/blog/family-visa-dubai-requirements-2026", priority: 0.64, changeFrequency: "monthly" },
+    { path: "/blog/emirates-id-renewal-replacement-guide", priority: 0.64, changeFrequency: "monthly" },
+    { path: "/blog/mohre-services-dubai-explained", priority: 0.64, changeFrequency: "monthly" },
+    { path: "/blog/dubai-business-setup-guide-2026", priority: 0.64, changeFrequency: "monthly" },
+    { path: "/blog/attestation-services-dubai-all-embassies", priority: 0.64, changeFrequency: "monthly" },
+    { path: "/blog/dha-medical-fitness-test-dubai", priority: 0.64, changeFrequency: "monthly" },
+    { path: "/blog/visa-renewal-cancellation-transfer-dubai", priority: 0.64, changeFrequency: "monthly" },
+    { path: "/blog/amer-center-services-complete-guide", priority: 0.64, changeFrequency: "monthly" },
   ];
 
   return pages.map(({ path, priority, changeFrequency }) => ({

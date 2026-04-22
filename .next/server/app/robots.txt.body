@@ -1,0 +1,7 @@
+User-Agent: *
+Allow: /
+Disallow: /portal/
+Disallow: /api/
+
+Host: https://www.amer.center
+Sitemap: https://www.amer.center/sitemap.xml

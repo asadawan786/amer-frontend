@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import WhatsAppButton from "@/components/WhatsAppButton";
+import SiteLayout from "@/components/SiteLayout";
 import { LanguageProvider } from "@/lib/i18n/LanguageContext";
 import { QueryProvider } from "@/components/QueryProvider";
-import { Toaster } from "@/components/ui/toaster";
 
 const SITE_URL = "https://www.amer.center";
 
@@ -152,13 +149,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </noscript>
         <QueryProvider>
           <LanguageProvider>
-            <div className="min-h-screen flex flex-col">
-              <Header />
-              <main className="flex-1">{children}</main>
-              <Footer />
-              <WhatsAppButton />
-              <Toaster />
-            </div>
+            <SiteLayout>{children}</SiteLayout>
           </LanguageProvider>
         </QueryProvider>
       </body>

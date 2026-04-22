@@ -1,0 +1,229 @@
+{
+  "pages": {
+    "/not-found": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/chunks/231-a29f8323516a5020.js",
+      "static/chunks/app/not-found-9f69a01700acdbfa.js"
+    ],
+    "/_not-found/page": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/chunks/app/_not-found/page-e1bb85f7e9093391.js"
+    ],
+    "/layout": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/css/5799c8717b7dd6c0.css",
+      "static/chunks/30a37ab2-0c814391f079847a.js",
+      "static/chunks/247-113b52db256869cd.js",
+      "static/chunks/231-a29f8323516a5020.js",
+      "static/chunks/732-c778cbf0fa9f6b95.js",
+      "static/chunks/648-927914df88f602e1.js",
+      "static/chunks/305-9e5f5494a2c755e5.js",
+      "static/chunks/151-e2bae71e76cc6b7a.js",
+      "static/chunks/481-8a6998b51a042f48.js",
+      "static/chunks/app/layout-b46fdb3acc70fd54.js"
+    ],
+    "/portal/login/page": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/chunks/247-113b52db256869cd.js",
+      "static/chunks/648-927914df88f602e1.js",
+      "static/chunks/app/portal/login/page-58f2a83d8a6f000a.js"
+    ],
+    "/faq/page": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/chunks/30a37ab2-0c814391f079847a.js",
+      "static/chunks/247-113b52db256869cd.js",
+      "static/chunks/481-8a6998b51a042f48.js",
+      "static/chunks/app/faq/page-d5e215137d23a013.js"
+    ],
+    "/portal/blog-manager/page": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/chunks/247-113b52db256869cd.js",
+      "static/chunks/231-a29f8323516a5020.js",
+      "static/chunks/732-c778cbf0fa9f6b95.js",
+      "static/chunks/267-1b46f4e565d06611.js",
+      "static/chunks/305-9e5f5494a2c755e5.js",
+      "static/chunks/922-be5eb2cc564c20a3.js",
+      "static/chunks/app/portal/blog-manager/page-efa2f7551236f8f3.js"
+    ],
+    "/contact/page": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/chunks/30a37ab2-0c814391f079847a.js",
+      "static/chunks/247-113b52db256869cd.js",
+      "static/chunks/732-c778cbf0fa9f6b95.js",
+      "static/chunks/267-1b46f4e565d06611.js",
+      "static/chunks/481-8a6998b51a042f48.js",
+      "static/chunks/app/contact/page-f2feb0cac8cd9245.js"
+    ],
+    "/tools/page": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/chunks/30a37ab2-0c814391f079847a.js",
+      "static/chunks/247-113b52db256869cd.js",
+      "static/chunks/732-c778cbf0fa9f6b95.js",
+      "static/chunks/267-1b46f4e565d06611.js",
+      "static/chunks/app/tools/page-fafb3575475898b7.js"
+    ],
+    "/amer-center-dubai/page": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/chunks/app/amer-center-dubai/page-76fd9ba0fee9080a.js"
+    ],
+    "/amer-center-al-twar/page": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/chunks/app/amer-center-al-twar/page-f5539668fc091524.js"
+    ],
+    "/amer-center-karama/page": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/chunks/app/amer-center-karama/page-90013a69af86d371.js"
+    ],
+    "/amer-center-deira/page": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/chunks/app/amer-center-deira/page-1d6292aa200863e0.js"
+    ],
+    "/blog/page": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/chunks/231-a29f8323516a5020.js",
+      "static/chunks/app/blog/page-7aa0a27606d1bd24.js"
+    ],
+    "/amer-center-mirdif/page": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/chunks/app/amer-center-mirdif/page-ffadc60350e878a8.js"
+    ],
+    "/business-setup/page": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/chunks/30a37ab2-0c814391f079847a.js",
+      "static/chunks/247-113b52db256869cd.js",
+      "static/chunks/481-8a6998b51a042f48.js",
+      "static/chunks/app/business-setup/page-da316145b3e06ce4.js"
+    ],
+    "/family-visa/page": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/chunks/30a37ab2-0c814391f079847a.js",
+      "static/chunks/247-113b52db256869cd.js",
+      "static/chunks/481-8a6998b51a042f48.js",
+      "static/chunks/app/family-visa/page-cc00a3b94b4aa896.js"
+    ],
+    "/page": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/chunks/30a37ab2-0c814391f079847a.js",
+      "static/chunks/247-113b52db256869cd.js",
+      "static/chunks/231-a29f8323516a5020.js",
+      "static/chunks/648-927914df88f602e1.js",
+      "static/chunks/747-c6959ea2b41ffd55.js",
+      "static/chunks/481-8a6998b51a042f48.js",
+      "static/chunks/app/page-42e460a29444a462.js"
+    ],
+    "/amer-center-sharjah/page": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/chunks/app/amer-center-sharjah/page-296d16b879da1c72.js"
+    ],
+    "/amer-center-nahda/page": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/chunks/app/amer-center-nahda/page-7c7ec47923d2d1a5.js"
+    ],
+    "/emirates-id/page": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/chunks/30a37ab2-0c814391f079847a.js",
+      "static/chunks/247-113b52db256869cd.js",
+      "static/chunks/481-8a6998b51a042f48.js",
+      "static/chunks/app/emirates-id/page-cb7225ef51413a59.js"
+    ],
+    "/blog/[slug]/page": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/chunks/231-a29f8323516a5020.js",
+      "static/chunks/app/blog/[slug]/page-eb9d2c549fd2aa16.js"
+    ],
+    "/services/page": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/chunks/30a37ab2-0c814391f079847a.js",
+      "static/chunks/247-113b52db256869cd.js",
+      "static/chunks/231-a29f8323516a5020.js",
+      "static/chunks/481-8a6998b51a042f48.js",
+      "static/chunks/app/services/page-f42b5bd9fdcc61d5.js"
+    ],
+    "/visa-services/page": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/chunks/30a37ab2-0c814391f079847a.js",
+      "static/chunks/247-113b52db256869cd.js",
+      "static/chunks/481-8a6998b51a042f48.js",
+      "static/chunks/app/visa-services/page-df5222133b66d838.js"
+    ],
+    "/golden-visa/page": [
+      "static/chunks/webpack-06dd545b2040cb59.js",
+      "static/chunks/fd9d1056-c775be061e24795e.js",
+      "static/chunks/23-af139347fdd77c64.js",
+      "static/chunks/main-app-37e3b5b430dc1579.js",
+      "static/chunks/30a37ab2-0c814391f079847a.js",
+      "static/chunks/247-113b52db256869cd.js",
+      "static/chunks/481-8a6998b51a042f48.js",
+      "static/chunks/app/golden-visa/page-4ea4beb6e4e3fa04.js"
+    ]
+  }
+}
