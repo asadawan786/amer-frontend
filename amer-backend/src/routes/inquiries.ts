@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import { z } from "zod";
 import { Inquiry } from "../models/Inquiry";
+import { requireAuth } from "../middleware/requireAuth";
 
 const router = Router();
 
@@ -28,8 +29,8 @@ router.post("/", async (req: Request, res: Response) => {
   }
 });
 
-// GET /api/inquiries - list all
-router.get("/", async (_req: Request, res: Response) => {
+// GET /api/inquiries - list all (protected)
+router.get("/", requireAuth, async (_req: Request, res: Response) => {
   try {
     const inquiries = await Inquiry.find().sort({ createdAt: -1 });
     res.json(inquiries);
@@ -39,8 +40,8 @@ router.get("/", async (_req: Request, res: Response) => {
   }
 });
 
-// PATCH /api/inquiries/:id/status - update status
-router.patch("/:id/status", async (req: Request, res: Response) => {
+// PATCH /api/inquiries/:id/status - update status (protected)
+router.patch("/:id/status", requireAuth, async (req: Request, res: Response) => {
   try {
     const { status } = req.body;
     if (!status || !["new", "in_progress", "resolved"].includes(status)) {

@@ -14,7 +14,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import {
   Plus, Edit, Trash2, LogOut, FileText, Eye, Globe,
-  CheckCircle2, Clock, AlertCircle, ChevronRight,
+  CheckCircle2, Clock, AlertCircle, ChevronRight, Inbox,
 } from "lucide-react";
 import { apiRequest } from "@/lib/api";
 
@@ -213,6 +213,12 @@ export default function BlogManagerPage() {
             <span className="text-sm text-gray-400">Amer Center Admin</span>
           </div>
           <div className="flex items-center gap-3">
+            <Link href="/portal/inquiries">
+              <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white gap-2">
+                <Inbox className="h-4 w-4" />
+                <span className="hidden sm:inline">Inquiries</span>
+              </Button>
+            </Link>
             <Link href="/" target="_blank">
               <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white gap-2">
                 <Globe className="h-4 w-4" />

@@ -3,8 +3,8 @@ import jwt from "jsonwebtoken";
 
 const router = Router();
 
-const ADMIN_USERNAME = process.env.BLOG_ADMIN_USERNAME || "DAFZA";
-const ADMIN_PASSWORD = process.env.BLOG_ADMIN_PASSWORD || "8888";
+const ADMIN_USERNAME = process.env.BLOG_ADMIN_USERNAME || "ameradmin";
+const ADMIN_PASSWORD = process.env.BLOG_ADMIN_PASSWORD || "Dafza@2026";
 const JWT_SECRET = process.env.JWT_SECRET || "amer-center-secret-change-in-production";
 
 // POST /api/blog-portal/login

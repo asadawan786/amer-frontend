@@ -14,5 +14,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/portal/blog-manager/:path*"],
+  matcher: ["/portal/blog-manager/:path*", "/portal/inquiries/:path*"],
 };
