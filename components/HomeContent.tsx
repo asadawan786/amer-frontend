@@ -269,7 +269,7 @@ export default function HomeContent() {
       {/* CTA */}
       <section className="py-20 md:py-28 bg-gray-900 text-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-light tracking-tight">
+          <h2 className="text-3xl md:text-4xl font-light tracking-tight text-white">
             Ready to Apply for Your Visa?
           </h2>
           <p className="mt-6 text-gray-400 max-w-xl mx-auto">

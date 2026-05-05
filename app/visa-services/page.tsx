@@ -110,7 +110,7 @@ export default function VisaServicesPage() {
 
       <section className="py-16 bg-gray-900 text-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-light tracking-tight">Need Visa Help?</h2>
+          <h2 className="text-3xl font-light tracking-tight text-white">Need Visa Help?</h2>
           <p className="mt-4 text-gray-400">Contact us via WhatsApp for same-day service.</p>
           <div className="mt-8">
             <TranslatedButton href={WHATSAPP_URL} labelKey="startNow" />

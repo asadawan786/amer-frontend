@@ -107,7 +107,7 @@ export default function BusinessSetupPage() {
 
       <section className="py-16 bg-gray-900 text-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-light tracking-tight">Ready to Start Your Business?</h2>
+          <h2 className="text-3xl font-light tracking-tight text-white">Ready to Start Your Business?</h2>
           <p className="mt-4 text-gray-400">Get a free consultation via WhatsApp today.</p>
           <div className="mt-8">
             <TranslatedButton href={WHATSAPP_URL} labelKey="freeConsultation" />

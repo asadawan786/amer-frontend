@@ -205,7 +205,7 @@ export default function AmerCenterSharjahPage() {
           </div>
 
           <div className="mt-16 p-6 bg-gray-900 text-white rounded-2xl">
-            <h2 className="text-xl font-semibold mb-3">Directions from Sharjah to Amer Center DAFZA</h2>
+            <h2 className="text-xl font-semibold mb-3 text-white">Directions from Sharjah to Amer Center DAFZA</h2>
             <ol className="space-y-2 text-gray-300">
               <li>1. Cross the Dubai-Sharjah border via Al Ittihad Road</li>
               <li>2. Take the Airport Road exit immediately after the border</li>
