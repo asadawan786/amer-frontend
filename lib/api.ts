@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://amer-backend.vercel.app";
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
 
 function getPortalToken(): string | null {
   if (typeof window === "undefined") return null;
