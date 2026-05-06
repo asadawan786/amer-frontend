@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, ArrowLeft } from "lucide-react";
+import { Calendar, Clock, ArrowLeft, User } from "lucide-react";
 import { SiWhatsapp } from "react-icons/si";
 
 const WHATSAPP_URL = `https://wa.me/971504512311?text=${encodeURIComponent("Hello! I need help with Dubai visa services.")}`;
 
-const blogPosts: Record<string, {
+const STATIC_POSTS: Record<string, {
   title: string; titleAr: string; category: string; date: string; readTime: string;
   description: string; content: string;
 }> = {
@@ -489,76 +490,216 @@ interface PageProps {
   params: { slug: string };
 }
 
+interface DynamicPost {
+  _id: string;
+  title: string;
+  slug: string;
+  content: string;
+  excerpt?: string;
+  category: string;
+  authorName: string;
+  readTime?: string;
+  coverImage?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  metaKeywords?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  twitterTitle?: string;
+  twitterDescription?: string;
+  canonicalUrl?: string;
+  geoRegion?: string;
+  geoPlacename?: string;
+  robots?: string;
+  schemaType?: string;
+  createdAt: string;
+}
+
+async function getDynamicPost(slug: string): Promise<DynamicPost | null> {
+  try {
+    const res = await fetch(
+      `${process.env.INTERNAL_API_URL || "http://localhost:5000"}/api/guest-blog-posts/by-slug/${slug}`,
+      { cache: "no-store" }
+    );
+    if (!res.ok) return null;
+    return res.json();
+  } catch {
+    return null;
+  }
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const post = blogPosts[params.slug];
+  const staticPost = STATIC_POSTS[params.slug];
+  if (staticPost) {
+    return {
+      title: staticPost.title,
+      description: staticPost.description,
+    };
+  }
+  const post = await getDynamicPost(params.slug);
   if (!post) return { title: "Post Not Found" };
+
   return {
-    title: post.title,
-    description: post.description,
+    title: post.metaTitle || post.title,
+    description: post.metaDescription || post.excerpt,
+    keywords: post.metaKeywords ? post.metaKeywords.split(",").map((k) => k.trim()) : undefined,
+    robots: post.robots || "index,follow",
+    alternates: post.canonicalUrl ? { canonical: post.canonicalUrl } : undefined,
+    openGraph: {
+      type: "article",
+      title: post.ogTitle || post.metaTitle || post.title,
+      description: post.ogDescription || post.metaDescription || post.excerpt,
+      images: post.ogImage ? [{ url: post.ogImage, width: 1200, height: 630 }] : undefined,
+      publishedTime: post.createdAt,
+      authors: [post.authorName],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.twitterTitle || post.ogTitle || post.metaTitle || post.title,
+      description: post.twitterDescription || post.ogDescription || post.metaDescription || post.excerpt,
+      images: post.ogImage ? [post.ogImage] : undefined,
+    },
+    other: {
+      ...(post.geoRegion && { "geo.region": post.geoRegion }),
+      ...(post.geoPlacename && { "geo.placename": post.geoPlacename }),
+    },
   };
 }
 
 export async function generateStaticParams() {
-  return Object.keys(blogPosts).map((slug) => ({ slug }));
+  return Object.keys(STATIC_POSTS).map((slug) => ({ slug }));
 }
 
-export default function BlogPostPage({ params }: PageProps) {
-  const post = blogPosts[params.slug];
+function renderMarkdown(content: string) {
+  return content.split("\n").map((line, idx) => {
+    if (line.startsWith("## "))
+      return <h2 key={idx} className="text-2xl font-semibold text-gray-900 mt-8 mb-4">{line.replace("## ", "")}</h2>;
+    if (line.startsWith("### "))
+      return <h3 key={idx} className="text-xl font-semibold text-gray-900 mt-6 mb-3">{line.replace("### ", "")}</h3>;
+    if (line.startsWith("**") && line.endsWith("**"))
+      return <p key={idx} className="font-semibold text-gray-900 mt-4">{line.replace(/\*\*/g, "")}</p>;
+    if (line.startsWith("- "))
+      return <li key={idx} className="text-gray-600 ml-4 mb-1">{line.replace("- ", "")}</li>;
+    if (/^\d+\./.test(line))
+      return <li key={idx} className="text-gray-600 ml-4 mb-1 list-decimal">{line.replace(/^\d+\.\s/, "")}</li>;
+    if (line.startsWith("|")) return null;
+    if (line.trim() === "") return <br key={idx} />;
+    return <p key={idx} className="text-gray-600 leading-relaxed mb-2">{line}</p>;
+  });
+}
+
+const CATEGORY_LABEL: Record<string, string> = {
+  "golden-visa": "Golden Visa",
+  "family-visa": "Family Visa",
+  "emirates-id": "Emirates ID",
+  "business-setup": "Business Setup",
+  attestation: "Attestation",
+  general: "General",
+};
+
+export default async function BlogPostPage({ params }: PageProps) {
+  const staticPost = STATIC_POSTS[params.slug];
+
+  if (staticPost) {
+    return (
+      <>
+        <article className="py-16 md:py-24">
+          <div className="max-w-4xl mx-auto px-6">
+            <Link href="/blog" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 mb-8">
+              <ArrowLeft className="h-4 w-4" /> Back to Blog
+            </Link>
+            <div className="mb-8">
+              <Badge variant="secondary" className="mb-4">{staticPost.category}</Badge>
+              <h1 className="text-3xl md:text-4xl font-light tracking-tight text-gray-900 mb-4">{staticPost.title}</h1>
+              <p className="text-gray-500 mb-4">{staticPost.titleAr}</p>
+              <div className="flex items-center gap-4 text-sm text-gray-400">
+                <span className="flex items-center gap-1"><Calendar className="h-4 w-4" />{staticPost.date}</span>
+                <span className="flex items-center gap-1"><Clock className="h-4 w-4" />{staticPost.readTime}</span>
+              </div>
+            </div>
+            <div className="prose max-w-none">{renderMarkdown(staticPost.content)}</div>
+            <CtaBox />
+          </div>
+        </article>
+      </>
+    );
+  }
+
+  const post = await getDynamicPost(params.slug);
   if (!post) notFound();
 
-  const lines = post.content.split("\n");
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": post.schemaType || "BlogPosting",
+    headline: post.title,
+    description: post.excerpt || post.metaDescription,
+    image: post.ogImage || post.coverImage,
+    author: { "@type": "Person", name: post.authorName },
+    publisher: {
+      "@type": "Organization",
+      name: "Amer Center Dubai",
+      logo: { "@type": "ImageObject", url: "https://www.amer.center/logo-header.jpeg" },
+    },
+    datePublished: post.createdAt,
+    dateModified: post.createdAt,
+    mainEntityOfPage: { "@type": "WebPage", "@id": `https://www.amer.center/blog/${post.slug}` },
+  };
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <article className="py-16 md:py-24">
         <div className="max-w-4xl mx-auto px-6">
           <Link href="/blog" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 mb-8">
-            <ArrowLeft className="h-4 w-4" />
-            Back to Blog
+            <ArrowLeft className="h-4 w-4" /> Back to Blog
           </Link>
 
+          {post.coverImage && (
+            <div className="relative w-full h-64 md:h-96 rounded-2xl overflow-hidden mb-8">
+              <Image src={post.coverImage} alt={post.title} fill className="object-cover" priority />
+            </div>
+          )}
+
           <div className="mb-8">
-            <Badge variant="secondary" className="mb-4">{post.category}</Badge>
+            <Badge variant="secondary" className="mb-4">
+              {CATEGORY_LABEL[post.category] ?? post.category}
+            </Badge>
             <h1 className="text-3xl md:text-4xl font-light tracking-tight text-gray-900 mb-4">{post.title}</h1>
-            <p className="text-gray-500 mb-4">{post.titleAr}</p>
-            <div className="flex items-center gap-4 text-sm text-gray-400">
-              <span className="flex items-center gap-1"><Calendar className="h-4 w-4" />{post.date}</span>
-              <span className="flex items-center gap-1"><Clock className="h-4 w-4" />{post.readTime}</span>
+            <div className="flex items-center gap-4 text-sm text-gray-400 flex-wrap">
+              <span className="flex items-center gap-1"><Calendar className="h-4 w-4" />
+                {new Date(post.createdAt).toLocaleDateString("en-AE", { day: "numeric", month: "long", year: "numeric" })}
+              </span>
+              {post.readTime && <span className="flex items-center gap-1"><Clock className="h-4 w-4" />{post.readTime}</span>}
+              <span className="flex items-center gap-1"><User className="h-4 w-4" />{post.authorName}</span>
             </div>
           </div>
 
-          <div className="prose max-w-none">
-            {lines.map((line, idx) => {
-              if (line.startsWith("## ")) {
-                return <h2 key={idx} className="text-2xl font-semibold text-gray-900 mt-8 mb-4">{line.replace("## ", "")}</h2>;
-              }
-              if (line.startsWith("**") && line.endsWith("**")) {
-                return <p key={idx} className="font-semibold text-gray-900 mt-4">{line.replace(/\*\*/g, "")}</p>;
-              }
-              if (line.startsWith("- ")) {
-                return <li key={idx} className="text-gray-600 ml-4 mb-1">{line.replace("- ", "")}</li>;
-              }
-              if (line.startsWith("|")) {
-                return null;
-              }
-              if (line.trim() === "") {
-                return <br key={idx} />;
-              }
-              return <p key={idx} className="text-gray-600 leading-relaxed mb-2">{line}</p>;
-            })}
-          </div>
+          <div
+            className="blog-content"
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
 
-          <div className="mt-12 p-8 bg-[#C9A962]/5 border border-[#C9A962]/20 rounded-lg">
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Need Help?</h3>
-            <p className="text-gray-600 mb-4">Contact Amer Center Dubai for personalized assistance via WhatsApp.</p>
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-              <Button className="bg-[#25D366] hover:bg-[#20BD5A] text-white rounded-md">
-                <SiWhatsapp className="h-4 w-4 mr-2" /> WhatsApp Us
-              </Button>
-            </a>
-          </div>
+          <CtaBox />
         </div>
       </article>
     </>
+  );
+}
+
+function CtaBox() {
+  return (
+    <div className="mt-12 p-8 bg-[#C9A962]/5 border border-[#C9A962]/20 rounded-lg">
+      <h3 className="text-xl font-semibold text-gray-900 mb-2">Need Help?</h3>
+      <p className="text-gray-600 mb-4">Contact Amer Center Dubai for personalized assistance via WhatsApp.</p>
+      <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+        <Button className="bg-[#25D366] hover:bg-[#20BD5A] text-white rounded-md">
+          <SiWhatsapp className="h-4 w-4 mr-2" /> WhatsApp Us
+        </Button>
+      </a>
+    </div>
   );
 }
