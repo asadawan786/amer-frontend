@@ -486,6 +486,8 @@ Contact: +971 50 451 2311`,
   },
 };
 
+export const dynamic = "force-dynamic";
+
 interface PageProps {
   params: { slug: string };
 }
