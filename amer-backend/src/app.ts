@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import inquiriesRouter from "./routes/inquiries";
 import guestBlogPostsRouter from "./routes/guestBlogPosts";
+import servicesRouter from "./routes/services";
 import authRouter from "./routes/auth";
 
 const app = express();
@@ -86,6 +87,7 @@ app.get("/api/health", (_req, res) => {
 // Routes
 app.use("/api/inquiries", inquiriesRouter);
 app.use("/api/guest-blog-posts", guestBlogPostsRouter);
+app.use("/api/services", servicesRouter);
 app.use("/api/blog-portal", authRouter);
 
 // robots.txt

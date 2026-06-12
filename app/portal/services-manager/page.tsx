@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -15,12 +15,11 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import {
-  Plus, Edit, Trash2, LogOut, FileText, Eye, Globe,
-  CheckCircle2, Clock, AlertCircle, ChevronRight, Inbox,
-  Image as ImageIcon, Share2, MapPin, Search, Settings,
+  Plus, Edit, Trash2, LogOut, FileText, Globe, CheckCircle2,
+  AlertCircle, ChevronRight, Inbox, Copy, Layers, Search,
+  Image as ImageIcon, Share2, MapPin, Settings, Sprout,
 } from "lucide-react";
 import { apiRequest } from "@/lib/api";
-import { useEffect } from "react";
 
 const JoditEditor = dynamic(() => import("jodit-react"), {
   ssr: false,
@@ -31,16 +30,17 @@ const JoditEditor = dynamic(() => import("jodit-react"), {
   ),
 });
 
-interface GuestBlogPost {
+interface Service {
   _id: string;
   title: string;
   slug: string;
   content: string;
   excerpt?: string;
   category: string;
-  authorName: string;
+  subcategory?: string;
+  icon?: string;
   status: string;
-  readTime?: string;
+  isBuiltIn?: boolean;
   coverImage?: string;
   thumbnailImage?: string;
   metaTitle?: string;
@@ -52,8 +52,6 @@ interface GuestBlogPost {
   ogTitle?: string;
   ogDescription?: string;
   ogImage?: string;
-  twitterTitle?: string;
-  twitterDescription?: string;
   geoRegion?: string;
   geoPlacename?: string;
   schemaType?: string;
@@ -61,13 +59,63 @@ interface GuestBlogPost {
 }
 
 const CATEGORIES = [
-  { value: "golden-visa", label: "Golden Visa" },
-  { value: "family-visa", label: "Family Visa" },
-  { value: "emirates-id", label: "Emirates ID" },
+  { value: "visa-services", label: "Visa Services" },
+  { value: "attestation-translation", label: "Attestation & Translation" },
+  { value: "dha-medical-typing", label: "DHA Medical & Typing" },
+  { value: "emirates-id-government", label: "Emirates ID & Government" },
   { value: "business-setup", label: "Business Setup" },
-  { value: "attestation", label: "Attestation" },
-  { value: "general", label: "General" },
+  { value: "mohre-employment", label: "MOHRE & Employment" },
 ];
+
+const SUBCATEGORIES: Record<string, { value: string; label: string }[]> = {
+  "visa-services": [
+    { value: "golden-visa", label: "Golden Visa" },
+    { value: "family-visa", label: "Family Visa" },
+    { value: "visa-renewal", label: "Visa Renewal" },
+    { value: "visa-cancellation", label: "Visa Cancellation" },
+    { value: "entry-permits", label: "Entry Permits" },
+    { value: "status-change", label: "Status Change" },
+    { value: "visit-visa", label: "Visit Visa" },
+    { value: "tourist-visa", label: "Tourist Visa" },
+  ],
+  "attestation-translation": [
+    { value: "document-attestation", label: "Document Attestation" },
+    { value: "certificate-attestation", label: "Certificate Attestation" },
+    { value: "translation", label: "Translation Services" },
+    { value: "mofa-attestation", label: "MOFA Attestation" },
+    { value: "embassy-attestation", label: "Embassy Attestation" },
+    { value: "notarization", label: "Notarization" },
+  ],
+  "dha-medical-typing": [
+    { value: "medical-fitness", label: "Medical Fitness Test" },
+    { value: "health-insurance", label: "Health Insurance Typing" },
+    { value: "medical-certificate", label: "Medical Certificate" },
+    { value: "typing-services", label: "Typing Services" },
+    { value: "insurance-card", label: "Insurance Cards" },
+  ],
+  "emirates-id-government": [
+    { value: "emirates-id-new", label: "Emirates ID New" },
+    { value: "emirates-id-renewal", label: "Emirates ID Renewal" },
+    { value: "emirates-id-replacement", label: "Emirates ID Replacement" },
+    { value: "ica-services", label: "ICA Services" },
+    { value: "government-services", label: "Government Services" },
+  ],
+  "business-setup": [
+    { value: "mainland-company", label: "Mainland Company" },
+    { value: "free-zone", label: "Free Zone Company" },
+    { value: "offshore", label: "Offshore Company" },
+    { value: "trade-license", label: "Trade License" },
+    { value: "business-modification", label: "Business Modification" },
+    { value: "pro-services", label: "PRO Services" },
+  ],
+  "mohre-employment": [
+    { value: "work-permit", label: "Work Permit" },
+    { value: "employment-contract", label: "Employment Contract" },
+    { value: "labor-card", label: "Labor Card" },
+    { value: "mohre-services", label: "MOHRE Services" },
+    { value: "salary-protection", label: "Salary Protection" },
+  ],
+};
 
 const ROBOTS_OPTIONS = [
   { value: "index,follow", label: "Index, Follow (default)" },
@@ -77,10 +125,10 @@ const ROBOTS_OPTIONS = [
 ];
 
 const SCHEMA_TYPES = [
-  { value: "BlogPosting", label: "Blog Posting" },
-  { value: "Article", label: "Article" },
-  { value: "NewsArticle", label: "News Article" },
-  { value: "HowTo", label: "How-To Guide" },
+  { value: "Service", label: "Service" },
+  { value: "LocalBusiness", label: "Local Business" },
+  { value: "GovernmentService", label: "Government Service" },
+  { value: "FinancialService", label: "Financial Service" },
 ];
 
 const DEFAULT_FORM = {
@@ -88,10 +136,10 @@ const DEFAULT_FORM = {
   slug: "",
   content: "",
   excerpt: "",
-  category: "general",
-  authorName: "Amer Center Admin",
+  category: "visa-services",
+  subcategory: "",
+  icon: "",
   status: "draft",
-  readTime: "",
   coverImage: "",
   thumbnailImage: "",
   metaTitle: "",
@@ -103,24 +151,13 @@ const DEFAULT_FORM = {
   ogTitle: "",
   ogDescription: "",
   ogImage: "",
-  twitterTitle: "",
-  twitterDescription: "",
   geoRegion: "AE-DU",
   geoPlacename: "Dubai, UAE",
-  schemaType: "BlogPosting",
+  schemaType: "Service",
 };
 
-function slugify(title: string): string {
-  return title.toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-").trim();
-}
-
-function stripHtml(html: string): string {
-  return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
-}
-
-function wordCount(html: string): number {
-  const text = stripHtml(html);
-  return text ? text.split(/\s+/).length : 0;
+function slugify(text: string): string {
+  return text.toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-").trim();
 }
 
 function SectionHeader({ icon: Icon, title, subtitle }: { icon: React.ElementType; title: string; subtitle?: string }) {
@@ -137,18 +174,21 @@ function SectionHeader({ icon: Icon, title, subtitle }: { icon: React.ElementTyp
   );
 }
 
-export default function BlogManagerPage() {
+export default function ServicesManagerPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [view, setView] = useState<"list" | "editor">("list");
-  const [editingPost, setEditingPost] = useState<GuestBlogPost | null>(null);
+  const [editingService, setEditingService] = useState<Service | null>(null);
   const [formData, setFormData] = useState(DEFAULT_FORM);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [saveError, setSaveError] = useState("");
+  const [filterCategory, setFilterCategory] = useState<string>("all");
+  const [seedLoading, setSeedLoading] = useState(false);
+  const [seedMessage, setSeedMessage] = useState("");
 
   const joditConfig = useMemo(() => ({
     readonly: false,
-    placeholder: "Write your blog content here…",
+    placeholder: "Write service page content here…",
     height: 500,
     toolbarAdaptive: false,
     toolbarButtonSize: "middle" as const,
@@ -178,78 +218,108 @@ export default function BlogManagerPage() {
     }
   }, [router]);
 
-  const { data: posts = [], isLoading } = useQuery<GuestBlogPost[]>({
-    queryKey: ["/api/guest-blog-posts"],
+  const { data: services = [], isLoading } = useQuery<Service[]>({
+    queryKey: ["/api/services"],
     queryFn: async () => {
-      const res = await apiRequest("GET", "/api/guest-blog-posts");
-      if (!res.ok) throw new Error("Failed to load posts");
+      const res = await apiRequest("GET", "/api/services");
+      if (!res.ok) throw new Error("Failed to load services");
       return res.json();
     },
   });
 
   const createMutation = useMutation({
     mutationFn: async (data: typeof formData) => {
-      const res = await apiRequest("POST", "/api/guest-blog-posts", data);
+      const res = await apiRequest("POST", "/api/services", data);
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error((err as { message?: string }).message || "Failed to create post");
+        throw new Error((err as { message?: string }).message || "Failed to create service");
       }
       return res.json();
     },
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["/api/guest-blog-posts"] }); resetEditor(); },
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["/api/services"] }); resetEditor(); },
     onError: (err: Error) => setSaveError(err.message),
   });
 
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }: { id: string; data: Partial<typeof formData> }) => {
-      const res = await apiRequest("PATCH", `/api/guest-blog-posts/${id}`, data);
+      const res = await apiRequest("PATCH", `/api/services/${id}`, data);
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error((err as { message?: string }).message || "Failed to update post");
+        throw new Error((err as { message?: string }).message || "Failed to update service");
       }
       return res.json();
     },
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["/api/guest-blog-posts"] }); resetEditor(); },
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["/api/services"] }); resetEditor(); },
     onError: (err: Error) => setSaveError(err.message),
   });
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      const res = await apiRequest("DELETE", `/api/guest-blog-posts/${id}`);
-      if (!res.ok) throw new Error("Failed to delete post");
+      const res = await apiRequest("DELETE", `/api/services/${id}`);
+      if (!res.ok) throw new Error("Failed to delete service");
       return res.json();
     },
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["/api/guest-blog-posts"] }); setDeleteConfirm(null); },
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["/api/services"] }); setDeleteConfirm(null); },
   });
 
   const resetEditor = () => {
     setView("list");
-    setEditingPost(null);
+    setEditingService(null);
     setFormData(DEFAULT_FORM);
     setSaveError("");
   };
 
-  const openEditor = (post?: GuestBlogPost) => {
-    if (post) {
-      setEditingPost(post);
+  const openEditor = (service?: Service) => {
+    if (service) {
+      setEditingService(service);
       setFormData({
-        title: post.title, slug: post.slug, content: post.content,
-        excerpt: post.excerpt || "", category: post.category, authorName: post.authorName,
-        status: post.status, readTime: post.readTime || "",
-        coverImage: post.coverImage || "", thumbnailImage: post.thumbnailImage || "",
-        metaTitle: post.metaTitle || "", metaDescription: post.metaDescription || "",
-        metaKeywords: post.metaKeywords || "", focusKeyword: post.focusKeyword || "",
-        canonicalUrl: post.canonicalUrl || "", robots: post.robots || "index,follow",
-        ogTitle: post.ogTitle || "", ogDescription: post.ogDescription || "",
-        ogImage: post.ogImage || "", twitterTitle: post.twitterTitle || "",
-        twitterDescription: post.twitterDescription || "",
-        geoRegion: post.geoRegion || "AE-DU", geoPlacename: post.geoPlacename || "Dubai, UAE",
-        schemaType: post.schemaType || "BlogPosting",
+        title: service.title, slug: service.slug, content: service.content,
+        excerpt: service.excerpt || "", category: service.category,
+        subcategory: service.subcategory || "", icon: service.icon || "",
+        status: service.status, coverImage: service.coverImage || "",
+        thumbnailImage: service.thumbnailImage || "",
+        metaTitle: service.metaTitle || "", metaDescription: service.metaDescription || "",
+        metaKeywords: service.metaKeywords || "", focusKeyword: service.focusKeyword || "",
+        canonicalUrl: service.canonicalUrl || "", robots: service.robots || "index,follow",
+        ogTitle: service.ogTitle || "", ogDescription: service.ogDescription || "",
+        ogImage: service.ogImage || "", geoRegion: service.geoRegion || "AE-DU",
+        geoPlacename: service.geoPlacename || "Dubai, UAE",
+        schemaType: service.schemaType || "Service",
       });
     } else {
-      setEditingPost(null);
+      setEditingService(null);
       setFormData(DEFAULT_FORM);
     }
+    setSaveError("");
+    setView("editor");
+  };
+
+  const openClone = (service: Service) => {
+    setEditingService(null);
+    setFormData({
+      title: `${service.title} (Copy)`,
+      slug: `${service.slug}-copy`,
+      content: service.content,
+      excerpt: service.excerpt || "",
+      category: service.category,
+      subcategory: service.subcategory || "",
+      icon: service.icon || "",
+      status: "draft",
+      coverImage: service.coverImage || "",
+      thumbnailImage: service.thumbnailImage || "",
+      metaTitle: service.metaTitle ? `${service.metaTitle} - Copy` : "",
+      metaDescription: service.metaDescription || "",
+      metaKeywords: service.metaKeywords || "",
+      focusKeyword: service.focusKeyword || "",
+      canonicalUrl: "",
+      robots: service.robots || "index,follow",
+      ogTitle: service.ogTitle || "",
+      ogDescription: service.ogDescription || "",
+      ogImage: service.ogImage || "",
+      geoRegion: service.geoRegion || "AE-DU",
+      geoPlacename: service.geoPlacename || "Dubai, UAE",
+      schemaType: service.schemaType || "Service",
+    });
     setSaveError("");
     setView("editor");
   };
@@ -271,11 +341,29 @@ export default function BlogManagerPage() {
     setSaveError("");
     const slug = formData.slug || slugify(formData.title);
     const data = { ...formData, slug };
-    if (editingPost) {
-      updateMutation.mutate({ id: editingPost._id, data });
+    if (editingService) {
+      updateMutation.mutate({ id: editingService._id, data });
     } else {
       createMutation.mutate(data);
     }
+  };
+
+  const handleSeed = async () => {
+    setSeedLoading(true);
+    setSeedMessage("");
+    try {
+      const res = await apiRequest("POST", "/api/services/seed", {});
+      const json = await res.json() as { message?: string; count?: number; skipped?: boolean };
+      if (res.ok) {
+        setSeedMessage(json.skipped ? "Services already seeded — no changes made." : `${json.count ?? 24} services seeded successfully!`);
+        queryClient.invalidateQueries({ queryKey: ["/api/services"] });
+      } else {
+        setSeedMessage((json as { message?: string }).message || "Seed failed");
+      }
+    } catch {
+      setSeedMessage("Network error during seed");
+    }
+    setSeedLoading(false);
   };
 
   const handleLogout = () => {
@@ -284,25 +372,28 @@ export default function BlogManagerPage() {
     router.push("/portal/login");
   };
 
+  const filteredServices = filterCategory === "all"
+    ? services
+    : services.filter((s) => s.category === filterCategory);
+
   const isSaving = createMutation.isPending || updateMutation.isPending;
-  const publishedCount = posts.filter((p) => p.status === "published").length;
-  const draftCount = posts.filter((p) => p.status === "draft").length;
-  const wc = wordCount(formData.content);
+  const publishedCount = services.filter((s) => s.status === "published").length;
+  const draftCount = services.filter((s) => s.status === "draft").length;
   const ogPreviewTitle = formData.ogTitle || formData.metaTitle || formData.title;
   const ogPreviewDesc = formData.ogDescription || formData.metaDescription || formData.excerpt;
   const ogPreviewImage = formData.ogImage || formData.coverImage;
 
   const checklist = [
     { label: "Title", done: !!formData.title },
-    { label: "Content (300+ words)", done: wc >= 300 },
+    { label: "Content", done: formData.content.replace(/<[^>]*>/g, "").trim().length >= 100 },
     { label: "Excerpt", done: !!formData.excerpt },
     { label: "Cover image", done: !!formData.coverImage },
-    { label: "Thumbnail image", done: !!formData.thumbnailImage },
     { label: "Meta title", done: !!formData.metaTitle },
     { label: "Meta description", done: !!formData.metaDescription },
     { label: "OG image", done: !!formData.ogImage },
   ];
   const checklistDone = checklist.filter((c) => c.done).length;
+  const currentSubcats = SUBCATEGORIES[formData.category] ?? [];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -315,8 +406,8 @@ export default function BlogManagerPage() {
             </Link>
             <div className="h-5 w-px bg-gray-200" />
             <div className="flex items-center gap-2 text-sm text-gray-600">
-              <FileText className="h-4 w-4 text-[#C9A962]" />
-              <span className="font-medium text-gray-900">Blog Manager</span>
+              <Layers className="h-4 w-4 text-[#C9A962]" />
+              <span className="font-medium text-gray-900">Services Manager</span>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -325,9 +416,9 @@ export default function BlogManagerPage() {
                 <Inbox className="h-4 w-4" /><span className="hidden sm:inline">Inquiries</span>
               </Button>
             </Link>
-            <Link href="/portal/services-manager">
+            <Link href="/portal/blog-manager">
               <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900 gap-2">
-                <Settings className="h-4 w-4" /><span className="hidden sm:inline">Services</span>
+                <FileText className="h-4 w-4" /><span className="hidden sm:inline">Blog</span>
               </Button>
             </Link>
             <Link href="/" target="_blank">
@@ -345,11 +436,12 @@ export default function BlogManagerPage() {
       <div className="max-w-7xl mx-auto px-6 py-8">
         {view === "list" ? (
           <>
-            <div className="grid grid-cols-3 gap-4 mb-8">
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-4 mb-6">
               {[
-                { label: "Total Posts", value: posts.length, icon: FileText, color: "text-[#C9A962]" },
+                { label: "Total Services", value: services.length, icon: Layers, color: "text-[#C9A962]" },
                 { label: "Published", value: publishedCount, icon: CheckCircle2, color: "text-green-600" },
-                { label: "Drafts", value: draftCount, icon: Clock, color: "text-amber-500" },
+                { label: "Drafts", value: draftCount, icon: Settings, color: "text-amber-500" },
               ].map(({ label, value, icon: Icon, color }) => (
                 <div key={label} className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
                   <div className="flex items-center gap-2 mb-1">
@@ -361,63 +453,123 @@ export default function BlogManagerPage() {
               ))}
             </div>
 
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-900">All Posts</h2>
-              <Button onClick={() => openEditor()} className="bg-[#C9A962] hover:bg-[#A88B4A] text-white rounded-md gap-2" size="sm">
-                <Plus className="h-4 w-4" /> New Post
+            {/* Seed banner */}
+            <div className="bg-white border border-gray-200 rounded-xl p-4 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm">
+              <div>
+                <p className="text-sm font-medium text-gray-900">Pre-built Services</p>
+                <p className="text-xs text-gray-500 mt-0.5">Seed all 24 existing Amer Center services into the database automatically. Only runs if no services exist yet.</p>
+              </div>
+              <div className="flex items-center gap-3">
+                {seedMessage && (
+                  <p className={`text-xs font-medium ${seedMessage.includes("fail") || seedMessage.includes("error") ? "text-red-600" : "text-green-700"}`}>
+                    {seedMessage}
+                  </p>
+                )}
+                <Button
+                  onClick={handleSeed}
+                  disabled={seedLoading}
+                  variant="outline"
+                  size="sm"
+                  className="border-[#C9A962] text-[#C9A962] hover:bg-[#C9A962]/5 gap-2 whitespace-nowrap"
+                >
+                  <Sprout className="h-4 w-4" />
+                  {seedLoading ? "Seeding…" : "Seed Services"}
+                </Button>
+              </div>
+            </div>
+
+            {/* Filter + New */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  type="button"
+                  onClick={() => setFilterCategory("all")}
+                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${filterCategory === "all" ? "bg-[#C9A962] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+                >
+                  All ({services.length})
+                </button>
+                {CATEGORIES.map((cat) => {
+                  const count = services.filter((s) => s.category === cat.value).length;
+                  return (
+                    <button
+                      key={cat.value}
+                      type="button"
+                      onClick={() => setFilterCategory(cat.value)}
+                      className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${filterCategory === cat.value ? "bg-[#C9A962] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+                    >
+                      {cat.label} ({count})
+                    </button>
+                  );
+                })}
+              </div>
+              <Button onClick={() => openEditor()} className="bg-[#C9A962] hover:bg-[#A88B4A] text-white rounded-md gap-2 whitespace-nowrap" size="sm">
+                <Plus className="h-4 w-4" /> New Service
               </Button>
             </div>
 
             {isLoading ? (
-              <div className="text-center py-16 text-gray-400">Loading posts…</div>
-            ) : posts.length === 0 ? (
+              <div className="text-center py-16 text-gray-400">Loading services…</div>
+            ) : filteredServices.length === 0 ? (
               <div className="text-center py-16 bg-white border border-gray-200 rounded-xl shadow-sm">
-                <FileText className="h-10 w-10 text-gray-300 mx-auto mb-3" />
-                <p className="text-gray-500 mb-4">No blog posts yet.</p>
+                <Layers className="h-10 w-10 text-gray-300 mx-auto mb-3" />
+                <p className="text-gray-500 mb-1">No services found.</p>
+                <p className="text-xs text-gray-400 mb-4">Use the Seed button above to add all 24 existing Amer services.</p>
                 <Button onClick={() => openEditor()} className="bg-[#C9A962] hover:bg-[#A88B4A] text-white rounded-md gap-2" size="sm">
-                  <Plus className="h-4 w-4" /> Create first post
+                  <Plus className="h-4 w-4" /> Create service
                 </Button>
               </div>
             ) : (
               <div className="space-y-2">
-                {posts.map((post) => (
-                  <div key={post._id} className="bg-white border border-gray-200 rounded-xl px-5 py-4 flex items-center justify-between hover:border-[#C9A962]/30 hover:shadow-sm transition-all">
+                {filteredServices.map((service) => (
+                  <div key={service._id} className="bg-white border border-gray-200 rounded-xl px-5 py-4 flex items-center justify-between hover:border-[#C9A962]/30 hover:shadow-sm transition-all">
                     <div className="flex items-center gap-3 flex-1 min-w-0">
-                      {post.thumbnailImage && (
+                      {service.icon ? (
+                        <span className="text-2xl flex-shrink-0">{service.icon}</span>
+                      ) : service.thumbnailImage ? (
                         <div className="relative h-10 w-16 rounded overflow-hidden flex-shrink-0">
-                          <Image src={post.thumbnailImage} alt="" fill className="object-cover" />
+                          <Image src={service.thumbnailImage} alt="" fill className="object-cover" />
+                        </div>
+                      ) : (
+                        <div className="h-10 w-10 rounded-lg bg-[#C9A962]/10 flex items-center justify-center flex-shrink-0">
+                          <Layers className="h-5 w-5 text-[#C9A962]" />
                         </div>
                       )}
                       <div className="min-w-0">
-                        <div className="flex items-center gap-2 mb-0.5">
-                          <span className="font-medium text-gray-900 truncate">{post.title}</span>
-                          <Badge className={post.status === "published" ? "bg-green-50 text-green-700 border-green-200" : "bg-amber-50 text-amber-700 border-amber-200"} variant="outline">
-                            {post.status}
+                        <div className="flex items-center gap-2 mb-0.5 flex-wrap">
+                          <span className="font-medium text-gray-900 truncate">{service.title}</span>
+                          {service.isBuiltIn && <Badge className="bg-blue-50 text-blue-700 border-blue-200 text-[10px]" variant="outline">Built-in</Badge>}
+                          <Badge className={service.status === "published" ? "bg-green-50 text-green-700 border-green-200" : "bg-amber-50 text-amber-700 border-amber-200"} variant="outline">
+                            {service.status}
                           </Badge>
                         </div>
-                        <p className="text-xs text-gray-500">
-                          {CATEGORIES.find((c) => c.value === post.category)?.label ?? post.category}
-                          {" · "}{new Date(post.createdAt).toLocaleDateString("en-AE", { day: "numeric", month: "short", year: "numeric" })}
-                          {" · "}<span className="font-mono text-gray-400">/{post.slug}</span>
+                        <p className="text-xs text-gray-500 truncate">
+                          {CATEGORIES.find((c) => c.value === service.category)?.label ?? service.category}
+                          {service.subcategory && ` · ${SUBCATEGORIES[service.category]?.find((s) => s.value === service.subcategory)?.label ?? service.subcategory}`}
+                          {" · "}<span className="font-mono text-gray-400">/services/{service.slug}</span>
                         </p>
                       </div>
                     </div>
                     <div className="flex items-center gap-1 ml-4">
-                      {post.status === "published" && (
-                        <Link href={`/blog/${post.slug}`} target="_blank">
-                          <Button variant="ghost" size="icon" className="text-gray-400 hover:text-[#C9A962] h-8 w-8"><Eye className="h-4 w-4" /></Button>
+                      {service.status === "published" && (
+                        <Link href={`/services/${service.slug}`} target="_blank">
+                          <Button variant="ghost" size="icon" className="text-gray-400 hover:text-[#C9A962] h-8 w-8">
+                            <Globe className="h-4 w-4" />
+                          </Button>
                         </Link>
                       )}
-                      <Button variant="ghost" size="icon" className="text-gray-400 hover:text-gray-700 h-8 w-8" onClick={() => openEditor(post)}>
+                      <Button variant="ghost" size="icon" className="text-gray-400 hover:text-[#C9A962] h-8 w-8" title="Clone" onClick={() => openClone(service)}>
+                        <Copy className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="icon" className="text-gray-400 hover:text-gray-700 h-8 w-8" onClick={() => openEditor(service)}>
                         <Edit className="h-4 w-4" />
                       </Button>
-                      {deleteConfirm === post._id ? (
+                      {deleteConfirm === service._id ? (
                         <div className="flex items-center gap-1">
-                          <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-700 text-xs h-8 px-2" onClick={() => deleteMutation.mutate(post._id)} disabled={deleteMutation.isPending}>Confirm</Button>
+                          <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-700 text-xs h-8 px-2" onClick={() => deleteMutation.mutate(service._id)} disabled={deleteMutation.isPending}>Confirm</Button>
                           <Button variant="ghost" size="sm" className="text-gray-500 text-xs h-8 px-2" onClick={() => setDeleteConfirm(null)}>Cancel</Button>
                         </div>
                       ) : (
-                        <Button variant="ghost" size="icon" className="text-gray-400 hover:text-red-600 h-8 w-8" onClick={() => setDeleteConfirm(post._id)}>
+                        <Button variant="ghost" size="icon" className="text-gray-400 hover:text-red-600 h-8 w-8" onClick={() => setDeleteConfirm(service._id)}>
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       )}
@@ -432,14 +584,14 @@ export default function BlogManagerPage() {
             {/* Editor header */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2 text-sm">
-                <button type="button" onClick={resetEditor} className="text-gray-500 hover:text-gray-900 transition-colors">← Posts</button>
+                <button type="button" onClick={resetEditor} className="text-gray-500 hover:text-gray-900 transition-colors">← Services</button>
                 <ChevronRight className="h-3 w-3 text-gray-400" />
-                <span className="text-gray-900 font-medium">{editingPost ? "Edit Post" : "New Post"}</span>
+                <span className="text-gray-900 font-medium">{editingService ? "Edit Service" : "New Service"}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Button type="button" variant="outline" size="sm" className="text-gray-600" onClick={resetEditor}>Cancel</Button>
                 <Button type="submit" size="sm" className="bg-[#C9A962] hover:bg-[#A88B4A] text-white rounded-md gap-2" disabled={isSaving}>
-                  {isSaving ? "Saving…" : editingPost ? "Save Changes" : "Create Post"}
+                  {isSaving ? "Saving…" : editingService ? "Save Changes" : "Create Service"}
                 </Button>
               </div>
             </div>
@@ -451,32 +603,29 @@ export default function BlogManagerPage() {
             )}
 
             <div className="grid lg:grid-cols-[1fr_288px] gap-6">
-              {/* Main panel — all sections visible */}
+              {/* Main panel */}
               <div className="space-y-6">
 
                 {/* ── CONTENT ── */}
                 <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm space-y-5">
-                  <SectionHeader icon={FileText} title="Content" subtitle="Title, body, and excerpt" />
+                  <SectionHeader icon={FileText} title="Content" subtitle="Title, body, and description" />
 
                   <div className="space-y-2">
-                    <Label className="text-gray-700 text-xs uppercase tracking-wider font-medium">Title *</Label>
+                    <Label className="text-gray-700 text-xs uppercase tracking-wider font-medium">Service Title *</Label>
                     <Input
                       value={formData.title}
                       onChange={(e) => handleTitleChange(e.target.value)}
-                      placeholder="Blog post title"
+                      placeholder="e.g. Golden Visa Dubai Application"
                       className="text-lg h-12 focus:border-[#C9A962]/50"
                       required
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <Label className="text-gray-700 text-xs uppercase tracking-wider font-medium">Content *</Label>
-                      <span className="text-xs text-gray-400">{wc} words</span>
-                    </div>
+                    <Label className="text-gray-700 text-xs uppercase tracking-wider font-medium">Page Content *</Label>
                     <div className="border border-gray-200 rounded-lg overflow-hidden">
                       <JoditEditor
-                        key={`editor-${editingPost?._id ?? "new"}`}
+                        key={`svc-editor-${editingService?._id ?? "new"}`}
                         value={formData.content}
                         config={joditConfig}
                         onBlur={(content) => setFormData((prev) => ({ ...prev, content }))}
@@ -485,11 +634,11 @@ export default function BlogManagerPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="text-gray-700 text-xs uppercase tracking-wider font-medium">Excerpt</Label>
+                    <Label className="text-gray-700 text-xs uppercase tracking-wider font-medium">Short Description / Excerpt</Label>
                     <Textarea
                       value={formData.excerpt}
                       onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-                      placeholder="Short summary shown in blog listing (1–2 sentences)"
+                      placeholder="1–2 sentences describing this service — shown in service listing cards"
                       rows={3}
                       className="text-sm resize-none focus:border-[#C9A962]/50"
                     />
@@ -500,11 +649,10 @@ export default function BlogManagerPage() {
                 <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm space-y-5">
                   <SectionHeader icon={ImageIcon} title="Images" subtitle="Cover photo and thumbnail" />
 
-                  {/* Cover Image */}
                   <div className="space-y-3">
                     <div>
                       <p className="text-sm font-medium text-gray-800">Cover Image</p>
-                      <p className="text-xs text-gray-500 mt-0.5">Hero image shown at the top of the blog post. Recommended: 1200×630px</p>
+                      <p className="text-xs text-gray-500 mt-0.5">Hero image at the top of the service page. Recommended: 1200×630px</p>
                     </div>
                     <Input
                       value={formData.coverImage}
@@ -523,7 +671,7 @@ export default function BlogManagerPage() {
                   <div className="border-t border-gray-100 pt-5 space-y-3">
                     <div>
                       <p className="text-sm font-medium text-gray-800">Thumbnail Image</p>
-                      <p className="text-xs text-gray-500 mt-0.5">Smaller preview image shown in blog listing cards. Recommended: 800×450px</p>
+                      <p className="text-xs text-gray-500 mt-0.5">Preview image shown in service listing cards. Recommended: 800×450px</p>
                     </div>
                     <Input
                       value={formData.thumbnailImage}
@@ -538,11 +686,6 @@ export default function BlogManagerPage() {
                       </div>
                     )}
                   </div>
-
-                  <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
-                    <p className="text-xs font-medium text-amber-800 mb-0.5">Image hosting tip</p>
-                    <p className="text-xs text-amber-700">Upload images to a CDN (Cloudinary, ImgBB) and paste the direct URL here. The OG image below controls WhatsApp / Facebook link previews.</p>
-                  </div>
                 </div>
 
                 {/* ── BASIC SEO ── */}
@@ -554,7 +697,7 @@ export default function BlogManagerPage() {
                       <Label className="text-gray-700 text-xs font-medium">
                         Meta Title <span className="text-gray-400 font-normal">({formData.metaTitle.length}/60)</span>
                       </Label>
-                      <Input value={formData.metaTitle} onChange={(e) => set("metaTitle")(e.target.value)} placeholder="Post title for search engines" maxLength={60} className="text-sm focus:border-[#C9A962]/50" />
+                      <Input value={formData.metaTitle} onChange={(e) => set("metaTitle")(e.target.value)} placeholder="Service title for search engines" maxLength={60} className="text-sm focus:border-[#C9A962]/50" />
                     </div>
                     <div className="space-y-1.5">
                       <Label className="text-gray-700 text-xs font-medium">Focus Keyword</Label>
@@ -587,13 +730,13 @@ export default function BlogManagerPage() {
 
                   <div className="space-y-1.5">
                     <Label className="text-gray-700 text-xs font-medium">Canonical URL</Label>
-                    <Input value={formData.canonicalUrl} onChange={(e) => set("canonicalUrl")(e.target.value)} placeholder="https://www.amer.center/blog/post-slug (leave blank for default)" className="text-sm focus:border-[#C9A962]/50" />
+                    <Input value={formData.canonicalUrl} onChange={(e) => set("canonicalUrl")(e.target.value)} placeholder="https://www.amer.center/services/slug (leave blank for default)" className="text-sm focus:border-[#C9A962]/50" />
                   </div>
 
                   {(formData.metaTitle || formData.title) && (
                     <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
                       <p className="text-xs text-gray-400 uppercase tracking-wider mb-2">Google Preview</p>
-                      <p className="text-xs text-gray-400">www.amer.center › blog › {formData.slug || "post-slug"}</p>
+                      <p className="text-xs text-gray-400">www.amer.center › services › {formData.slug || "service-slug"}</p>
                       <p className="text-[#1a0dab] text-[17px] mt-0.5 hover:underline cursor-pointer leading-tight">{formData.metaTitle || formData.title}</p>
                       <p className="text-sm text-[#545454] mt-1 leading-snug">{formData.metaDescription || formData.excerpt || "No description set."}</p>
                     </div>
@@ -602,7 +745,7 @@ export default function BlogManagerPage() {
 
                 {/* ── SOCIAL / OG ── */}
                 <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm space-y-4">
-                  <SectionHeader icon={Share2} title="Social & WhatsApp Preview" subtitle="Open Graph + Twitter/X card settings" />
+                  <SectionHeader icon={Share2} title="Social & WhatsApp Preview" subtitle="Open Graph settings for link previews" />
 
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
@@ -618,17 +761,6 @@ export default function BlogManagerPage() {
                   <div className="space-y-1.5">
                     <Label className="text-gray-700 text-xs font-medium">OG Description</Label>
                     <Textarea value={formData.ogDescription} onChange={(e) => set("ogDescription")(e.target.value)} placeholder={formData.metaDescription || "Defaults to meta description"} rows={2} className="text-sm resize-none focus:border-[#C9A962]/50" />
-                  </div>
-
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div className="space-y-1.5">
-                      <Label className="text-gray-700 text-xs font-medium">Twitter/X Title</Label>
-                      <Input value={formData.twitterTitle} onChange={(e) => set("twitterTitle")(e.target.value)} placeholder="Defaults to OG Title" className="text-sm focus:border-[#C9A962]/50" />
-                    </div>
-                    <div className="space-y-1.5">
-                      <Label className="text-gray-700 text-xs font-medium">Twitter/X Description</Label>
-                      <Input value={formData.twitterDescription} onChange={(e) => set("twitterDescription")(e.target.value)} placeholder="Defaults to OG Description" className="text-sm focus:border-[#C9A962]/50" />
-                    </div>
                   </div>
 
                   {ogPreviewTitle && (
@@ -654,7 +786,7 @@ export default function BlogManagerPage() {
                   )}
                 </div>
 
-                {/* ── UAE LOCAL / GEO SEO ── */}
+                {/* ── GEO SEO ── */}
                 <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm space-y-4">
                   <SectionHeader icon={MapPin} title="UAE Local & Geo SEO" subtitle="Geo targeting and structured data schema" />
 
@@ -678,7 +810,6 @@ export default function BlogManagerPage() {
                         {SCHEMA_TYPES.map((s) => <SelectItem key={s.value} value={s.value} className="text-sm">{s.label}</SelectItem>)}
                       </SelectContent>
                     </Select>
-                    <p className="text-xs text-gray-400">Used for JSON-LD structured data on the published post.</p>
                   </div>
                 </div>
               </div>
@@ -701,7 +832,7 @@ export default function BlogManagerPage() {
 
                   <div className="space-y-1.5">
                     <Label className="text-gray-700 text-xs font-medium">Category</Label>
-                    <Select value={formData.category} onValueChange={set("category")}>
+                    <Select value={formData.category} onValueChange={(v) => setFormData((p) => ({ ...p, category: v, subcategory: "" }))}>
                       <SelectTrigger className="h-9"><SelectValue /></SelectTrigger>
                       <SelectContent>
                         {CATEGORIES.map((cat) => <SelectItem key={cat.value} value={cat.value}>{cat.label}</SelectItem>)}
@@ -709,20 +840,29 @@ export default function BlogManagerPage() {
                     </Select>
                   </div>
 
-                  <div className="space-y-1.5">
-                    <Label className="text-gray-700 text-xs font-medium">Author</Label>
-                    <Input value={formData.authorName} onChange={(e) => set("authorName")(e.target.value)} className="h-9 text-sm focus:border-[#C9A962]/50" />
-                  </div>
+                  {currentSubcats.length > 0 && (
+                    <div className="space-y-1.5">
+                      <Label className="text-gray-700 text-xs font-medium">Subcategory</Label>
+                      <Select value={formData.subcategory || "__none"} onValueChange={(v) => set("subcategory")(v === "__none" ? "" : v)}>
+                        <SelectTrigger className="h-9"><SelectValue placeholder="None" /></SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="__none">None</SelectItem>
+                          {currentSubcats.map((s) => <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
 
                   <div className="space-y-1.5">
-                    <Label className="text-gray-700 text-xs font-medium">Read Time</Label>
-                    <Input value={formData.readTime} onChange={(e) => set("readTime")(e.target.value)} placeholder="5 min read" className="h-9 text-sm focus:border-[#C9A962]/50" />
+                    <Label className="text-gray-700 text-xs font-medium">Icon (emoji)</Label>
+                    <Input value={formData.icon} onChange={(e) => set("icon")(e.target.value)} placeholder="🏆" className="h-9 text-xl focus:border-[#C9A962]/50" />
+                    <p className="text-xs text-gray-400">Paste any emoji — shown in service list card</p>
                   </div>
 
                   <div className="space-y-1.5">
                     <Label className="text-gray-700 text-xs font-medium">URL Slug</Label>
                     <Input value={formData.slug} onChange={(e) => set("slug")(e.target.value)} placeholder="auto-generated" className="h-9 text-sm font-mono focus:border-[#C9A962]/50" />
-                    {formData.slug && <p className="text-xs text-gray-400 font-mono">/blog/{formData.slug}</p>}
+                    {formData.slug && <p className="text-xs text-gray-400 font-mono">/services/{formData.slug}</p>}
                   </div>
                 </div>
 
@@ -749,7 +889,7 @@ export default function BlogManagerPage() {
                 </div>
 
                 <Button type="submit" className="w-full bg-[#C9A962] hover:bg-[#A88B4A] text-white rounded-md" disabled={isSaving}>
-                  {isSaving ? "Saving…" : editingPost ? "Save Changes" : "Create Post"}
+                  {isSaving ? "Saving…" : editingService ? "Save Changes" : "Create Service"}
                 </Button>
               </div>
             </div>
